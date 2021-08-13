@@ -1,18 +1,12 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles(() => ({
-    root: {
-
-    },
-  }));
 
 const Answer = (props) => {
     // const classes = useStyles();
 
-    return(
-        <Button variant="contained"color="primary">
+    return (
+        <Button variant="contained" color="primary">
          {props.content}
         </Button>
     )
