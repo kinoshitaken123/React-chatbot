@@ -12,7 +12,8 @@ export default class App extends React.Component {
      currentId: "init",        // 現在の質問ID
      dateset: defaultDataset,  // 質問と回答のデータセット
      open: false               // 問い合わせフォーム用モーダルの開閉を管理
-    };
+    }
+    this.selectAnswer = this.selectAnswer.bind(this)
   }
 
   // 次の質問をチャットエリアに表示する関数
@@ -41,6 +42,7 @@ export default class App extends React.Component {
           text: selectedAnswer,
           type: 'answer'
         })  
+
         this.setState({
           chats: chats
         })
@@ -60,7 +62,7 @@ export default class App extends React.Component {
     <section className ="c-section">
      <div className="c-box">
        <Chats chats={this.state.chats} />
-       <AnswersList answers={this.state.answers} />
+       <AnswersList answers={this.state.answers} select={this.selectAnswer} />
      </div>
     </section>
   );
