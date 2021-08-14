@@ -14,6 +14,8 @@ export default class App extends React.Component {
      open: false               // 問い合わせフォーム用モーダルの開閉を管理
     }
     this.selectAnswer = this.selectAnswer.bind(this)
+    this.handleClickOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   // 次の質問をチャットエリアに表示する関数
@@ -36,6 +38,10 @@ export default class App extends React.Component {
       case (nextQuestionId === 'init'):
          setTimeout(() => this.displayNextQuestion(nextQuestionId), 500);
          break;
+         
+      case (nextQuestionId === 'contact'):
+        this.handleClose();
+        break;
 
       // リンクが選択された時
       case /^https:*/.test(nextQuestionId):
@@ -61,6 +67,14 @@ export default class App extends React.Component {
     }
   }
 
+  handleClickOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+      this.setState({open: false});
+  };
+
   componentDidMount() {
     const initAnswer = "";
     this.selectAnswer(initAnswer, this.state.currentId)
@@ -81,6 +95,7 @@ export default class App extends React.Component {
        <AnswersList answers={this.state.answers}
        　　　　　　　 select={this.selectAnswer} 
        />
+       <FormDialog open={this.state.open} handleClose={this.handleClose} />
      </div>
     </section>
   );
