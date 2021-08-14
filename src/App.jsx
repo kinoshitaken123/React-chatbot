@@ -41,10 +41,10 @@ export default class App extends React.Component {
       case /^https:*/.test(nextQuestionId):
         const a  = document.createElement('a');
         a.href   = nextQuestionId;
-        a.target = '_blanck';
+        a.target = '_blanck'; // 別タブでブラウザを開く
         a.click();
         break;
-        
+
       default:
         const chats = this.state.chats;
         chats.push({
