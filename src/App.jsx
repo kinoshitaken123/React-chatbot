@@ -14,6 +14,8 @@ export default class App extends React.Component {
      open: false               // 問い合わせフォーム用モーダルの開閉を管理
     }
     this.selectAnswer = this.selectAnswer.bind(this)
+    this.handleClickOpen = this.handleOpen.bind(this)
+    this.handleClose = this.handleClose.bind(this)
   }
 
   // 次の質問をチャットエリアに表示する関数
@@ -34,8 +36,21 @@ export default class App extends React.Component {
   selectAnswer = (selectedAnswer, nextQuestionId) => {
     switch(true) {
       case (nextQuestionId === 'init'):
-        this.displayNextQuestion(nextQuestionId)
+         setTimeout(() => this.displayNextQuestion(nextQuestionId), 500);
          break;
+         
+      case (nextQuestionId === 'contact'):
+        this.handleClose();
+        break;
+
+      // リンクが選択された時
+      case /^https:*/.test(nextQuestionId):
+        const a  = document.createElement('a');
+        a.href   = nextQuestionId;
+        a.target = '_blanck'; // 別タブでブラウザを開く
+        a.click();
+        break;
+
       default:
         const chats = this.state.chats;
         chats.push({
@@ -47,14 +62,29 @@ export default class App extends React.Component {
           chats: chats
         })
 
-        this.displayNextQuestion(nextQuestionId)
+        setTimeout(() => this.displayNextQuestion(nextQuestionId), 1000);
         break;
     }
   }
 
+  handleClickOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleClose = () => {
+      this.setState({open: false});
+  };
+
   componentDidMount() {
     const initAnswer = "";
     this.selectAnswer(initAnswer, this.state.currentId)
+  }
+
+  componentDidUpdate() {
+    const scrollArea = document.getElementById('scroll-area');
+    if (scrollArea) {
+      scrollArea.scrollTop = scrollArea.clientHeight;
+    }
   }
 
   render () {
@@ -62,7 +92,10 @@ export default class App extends React.Component {
     <section className ="c-section">
      <div className="c-box">
        <Chats chats={this.state.chats} />
-       <AnswersList answers={this.state.answers} select={this.selectAnswer} />
+       <AnswersList answers={this.state.answers}
+       　　　　　　　 select={this.selectAnswer} 
+       />
+       <FormDialog open={this.state.open} handleClose={this.handleClose} />
      </div>
     </section>
   );
