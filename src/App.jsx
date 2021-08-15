@@ -1,7 +1,8 @@
 import React from 'react';
 import './assets/styles/style.css'
-import defaultDataset from './dataset'
 import { AnswersList, Chats } from './components/index'
+import {db} from './firebase/index'
+import {FormDialog} from "./components/Forms/index";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,7 +11,7 @@ export default class App extends React.Component {
      answers: [],              // 回答コンポネートに表示するデータ
      chats: [],                // チャットコンポネートに表示するデータ
      currentId: "init",        // 現在の質問ID
-     dateset: defaultDataset,  // 質問と回答のデータセット
+     dateset: {},  // 質問と回答のデータセット
      open: false               // 問い合わせフォーム用モーダルの開閉を管理
     }
     this.selectAnswer = this.selectAnswer.bind(this)
@@ -76,8 +77,22 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    const initAnswer = "";
-    this.selectAnswer(initAnswer, this.state.currentId)
+    (async() => {
+      const dataset = this.state.dataset
+
+      // 非同期処理
+      await db.collection('questions').get().then(snapshots => {
+        snapshots.forEach(doc => {
+          const id = doc.id
+          const data = doc.data()
+          dateset[id] = data
+        })
+      })
+
+      this.initDataset(dataset)
+      const initAnswer = "";
+      this.selectAnswer(initAnswer, this.state.currentId)
+    })()
   }
 
   componentDidUpdate() {
