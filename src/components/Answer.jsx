@@ -28,4 +28,4 @@ const Answer = (props) => {
     )
 }
 
-export default Answer
+export default Answer;

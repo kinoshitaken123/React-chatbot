@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from "@material-ui/core/TextField";
-import defaultDataset from '../../dataset';
 
 const TextInput = (props) => {
     return (
@@ -17,4 +16,4 @@ const TextInput = (props) => {
     );
 };
 
-export default TextInput
+export default TextInput;
