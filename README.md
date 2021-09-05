@@ -14,7 +14,6 @@ Youtubeチャンネル『トラハックのエンジニア学習ゼミ【とら�
 * Hooks
 * Firebase
 * Hosting
-* Firebase
 * Clound Functions
 * Material-UI
 * Slack(Incoming Webhook)
